@@ -34,6 +34,8 @@ def add_contact(filename):
 def search_contacts(query):
   results = []
   for contact in contacts:
+    name = contact['Имя'].lower()
+    surname = contact['Фамилия'].lower()
     if query in contact['Имя'] or query in contact['Фамилия']:
       results.append(contact)
   return results
@@ -64,9 +66,9 @@ def change_contact(contacts):
   if 0 <= index < len(results):  
     contact = results[index]
     
-    field = input("Какое поле изменить (Имя, Фамилия, Номер телефона): ")
+    field = input("Какое поле изменить (Имя, Фамилия, Номер телефона): ").lower()
     value = input(f"Введите новое значение для {field}: ")  
-    contact[field] = value
+    contact[field.capitalize()] = value
     
     save_contacts(filename)
     print("Контакт изменен")
