@@ -3,7 +3,7 @@ import csv
 filename = 'contacts.csv'
 contacts = []
 
-def load_contacts(filename):
+def load_contacts(filename):          # Импорт из файла   
   with open(filename, encoding='utf-8') as csvfile:
     reader = csv.DictReader(csvfile)
     for row in reader:
@@ -12,7 +12,7 @@ def load_contacts(filename):
                  'Номер телефона': row['Номер телефона']}
       contacts.append(contact)
 
-def save_contacts(filename):
+def save_contacts(filename):            # Экспорт в файл
   fields = ['Имя', 'Фамилия', 'Номер телефона']
   with open(filename, 'w', encoding='utf-8') as csvfile:
     writer = csv.DictWriter(csvfile, fieldnames=fields) 
@@ -95,41 +95,48 @@ def delete_contact():
     print("Неверный индекс контакта")
 
 def show_menu():
-  print("\nМеню:")
-  print("1. Показать все контакты")
-  print("2. Добавить новый контакт")
-  print("3. Поиск контакта")
-  print("4. Редактировать контакт")
-  print("5. Удалить контакт") 
-  print("6. Выйти из программы")
+    print("\nМеню:")
+    print("1. Показать все контакты")
+    print("2. Добавить новый контакт")
+    print("3. Поиск контакта")
+    print("4. Редактировать контакт")
+    print("5. Удалить контакт")
+    print("6. Импорт из файла")
+    print("7. Экспорт в файл")
+    print("8. Выйти из программы")
 
 
 
 def option(filename):
-  
-  load_contacts(filename)
+    while True:
+        show_menu()
+        option = input("Выберите действие: ")
 
-  while True:
-    show_menu()
-    option = input("Выберите действие: ")
+        match option:
+            case "1":
+                print_contacts(contacts)
+            case "2":
+                add_contact(filename)
+            case "3":
+                query = input("Введите имя или фамилию для поиска: ")
+                results = search_contacts(query)
+                print_contacts(results)
+            case "4":
+                change_contact(contacts)
+            case "5":
+                delete_contact()
+            case "6":
+                load_contacts(filename)
+                print("Данные импортированы из файла.")
+            case "7":
+                save_contacts(filename)
+                print("Данные экспортированы в файл.")
+            case "8":
+                save_contacts(filename)
+                print("Выход")
+                break
+            case _:
+                print("Неверный ввод")
 
-    match option:
-      case "1":
-        print_contacts(contacts)
-      case "2":
-        add_contact(filename)  
-      case "3":
-        query = input("Введите имя или фамилию для поиска: ")
-        results = search_contacts(query)
-        print_contacts(results)
-      case "4":  
-        change_contact(contacts)
-      case "5":
-        delete_contact()
-      case "6":
-        print("Выход")
-        break
-      case _:
-        print("Неверный ввод")
 option(filename)
 
